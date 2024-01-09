@@ -1,9 +1,12 @@
-package org.app.siekraf.feature_login.ui
+package org.app.siekraf.feature_signup.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +14,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowRight
+import androidx.compose.material.icons.filled.ArrowRightAlt
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,25 +30,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.app.siekraf.R
-import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
 import org.app.siekraf.core.theme.SkyBlue
+import org.app.siekraf.feature_login.ui.LoginScreen
 
 @Composable
-fun LoginScreen(
+fun FirstSignupScreen(
     modifier: Modifier,
-    viewModel: LoginViewModel = LoginViewModel()
+    viewModel: SignupViewModel = SignupViewModel()
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
 
-    val loginState by remember { viewModel.loginState }.collectAsState()
+    val signupState by remember { viewModel.signupState }.collectAsState()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -48,7 +60,6 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
         Image(
             painter = painterResource(id = R.drawable.logo_siekraf),
             contentDescription = "Logo",
@@ -57,9 +68,19 @@ fun LoginScreen(
 
         Spacer(Modifier.size(16.dp))
 
-        Text("Masuk", style = MaterialTheme.typography.headlineLarge)
+        Text("Daftar", style = MaterialTheme.typography.headlineLarge)
 
         Spacer(Modifier.size(16.dp))
+
+        EkrafTextField(
+            value = uiState.value.email,
+            hint = {Text("Nama", color = Color.LightGray)},
+            onValueChange = {viewModel.updateNameInput(it)},
+            modifier = Modifier.fillMaxWidth(),
+            isError = uiState.value.isEmailError
+        )
+
+        Spacer(Modifier.size(10.dp))
 
         EkrafTextField(
             value = uiState.value.email,
@@ -83,25 +104,52 @@ fun LoginScreen(
 
         Spacer(Modifier.size(128.dp))
 
-        TextButton(onClick = { /*TODO*/ }) {
-            Text("Belum Punya akun? Daftar Sekarang", color = SkyBlue)
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(modifier = Modifier
+                .background(Color.Red)
+                .fillMaxWidth(0.46f))
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(SkyBlue)
+                    .size(16.dp),
+            )
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(Color.LightGray)
+                    .size(16.dp),
+            )
+            Box(modifier = Modifier
+                .background(Color.Red)
+                .fillMaxWidth(0.6f))
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    Icons.Filled.ArrowRightAlt,
+                    contentDescription = "Next",
+                    modifier = Modifier
+                        .size(100.dp)
+                )
+            }
+
         }
-        EkrafButton(
-            onClick = {},
-            text = "Login",
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+
+        Spacer(Modifier.size(16.dp))
+
+        TextButton(onClick = { /*TODO*/ }) {
+            Text("Sudah Punya Akun? Masuk sekarang", color = SkyBlue)
+        }
     }
 }
 
-
-
-
 @Preview(widthDp = 375, heightDp = 812)
 @Composable
-private fun LoginScreenPreview() {
-    LoginScreen(
+private fun FirstSignupScreenPreview() {
+    FirstSignupScreen(
         Modifier
             .width(375.dp)
             .height(812.dp)

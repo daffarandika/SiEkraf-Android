@@ -1,8 +1,10 @@
 package org.app.siekraf.core.component
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,14 +21,15 @@ fun EkrafButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = SkyBlue
         ),
     ) {
         Text(
+            modifier = modifier.padding(vertical =  10.dp),
             text = text,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

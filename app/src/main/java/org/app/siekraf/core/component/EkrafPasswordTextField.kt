@@ -2,12 +2,14 @@ package org.app.siekraf.core.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -31,13 +33,19 @@ fun EkrafPasswordTextField(
     value: String,
     isError: Boolean = false,
     onValueChange: (String) -> Unit,
-    showLabel: Boolean = false
+    showLabel: Boolean = false,
+    hint: @Composable () -> Unit = {}
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
         if (showLabel){
             Text(labelText, Modifier.align(Alignment.Start))
         }
-        OutlinedTextField(value = value,
+        OutlinedTextField(
+            shape = RoundedCornerShape(12.dp),
+            value = value,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            placeholder = hint,
             onValueChange = onValueChange,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = LightGray,
@@ -53,11 +61,11 @@ fun EkrafPasswordTextField(
             trailingIcon = {
                 if (showPassword) {
                     IconButton(onClick = onShowPasswordChange) {
-                        Icon(Icons.Filled.VisibilityOff, "Hide Password")
+                        Icon(Icons.Default.VisibilityOff, contentDescription = "Show")
                     }
                 } else {
                     IconButton(onClick = onShowPasswordChange) {
-                        Icon(Icons.Filled.Visibility, "Show Password")
+                        Icon(Icons.Default.Visibility, contentDescription = "Hide")
                     }
                 }
             }
