@@ -1,5 +1,6 @@
 package org.app.siekraf.feature_login.ui
 
+import android.util.Log.v
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,17 +25,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
+import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
+import org.app.siekraf.core.utils.ekrafViewModelFactory
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier,
-    viewModel: LoginViewModel = LoginViewModel()
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+//    viewModel: LoginViewModel = LoginViewModel()
 ) {
+
+    val viewModel = viewModel<LoginViewModel>(
+        factory = ekrafViewModelFactory { LoginViewModel() }
+    )
 
     val uiState = viewModel.uiState.collectAsState()
 
@@ -87,7 +98,13 @@ fun LoginScreen(
             Text("Belum Punya akun? Daftar Sekarang", color = SkyBlue)
         }
         EkrafButton(
-            onClick = {},
+            onClick = {
+                  navController.navigate(Screen.Main.route) {
+                      popUpTo(route = Screen.Login.route) {
+                          inclusive = true
+                      }
+                  }
+            },
             text = "Login",
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,5 +122,7 @@ private fun LoginScreenPreview() {
         Modifier
             .width(375.dp)
             .height(812.dp)
-            .background(color = Color(0xFFFFFFFF)))
+            .background(color = Color(0xFFFFFFFF)),
+        navController = rememberNavController()
+    )
 }

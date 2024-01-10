@@ -12,9 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import org.app.siekraf.core.navigation.graph.auth.AuthNavGraph
+import org.app.siekraf.core.navigation.graph.main.MainNavGraph
 import org.app.siekraf.core.theme.SiEkrafTheme
 import org.app.siekraf.feature_login.ui.LoginScreen
-import org.app.siekraf.feature_signup.ui.FirstSignupScreen
+import org.app.siekraf.feature_main.ui.MainScreen
 import org.app.siekraf.feature_signup.ui.SecondSignupScreen
 import org.app.siekraf.feature_signup.ui.SignupViewModel
 
@@ -23,14 +26,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val viewModel = viewModel<SignupViewModel>()
+            val navController = rememberNavController()
             SiEkrafTheme {
-                SecondSignupScreen(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .background(color = Color(0xFFFFFFFF)),
-                    viewModel = viewModel
-                )
+                AuthNavGraph(navController = navController)
             }
         }
     }
@@ -48,10 +46,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     SiEkrafTheme {
-        SecondSignupScreen(
-            modifier = Modifier
-                .padding(16.dp)
-                .background(color = Color(0xFFFFFFFF)),
-        )
+        LoginScreen()
     }
 }

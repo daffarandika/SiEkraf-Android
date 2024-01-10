@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.app.siekraf.core.Output
+import org.app.siekraf.core.model.Output
 import org.app.siekraf.feature_login.data.LoginUiState
 
 class LoginViewModel: ViewModel() {

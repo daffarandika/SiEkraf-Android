@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,9 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafButton
-import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafPhoneTextField
 import org.app.siekraf.core.component.EkrafRadioButton
 import org.app.siekraf.core.component.EkrafTextField
@@ -43,8 +43,9 @@ import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
 fun SecondSignupScreen(
-    modifier: Modifier,
-    viewModel: SignupViewModel = SignupViewModel()
+    modifier: Modifier = Modifier,
+    viewModel: SignupViewModel = SignupViewModel(),
+    navController: NavHostController
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
@@ -62,7 +63,9 @@ fun SecondSignupScreen(
         Image(
             painter = painterResource(id = R.drawable.logo_siekraf),
             contentDescription = "Logo",
-            modifier = Modifier.size(98.dp).align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .size(98.dp)
+                .align(Alignment.CenterHorizontally)
         )
         Spacer(Modifier.size(16.dp))
         Text("Daftar", style = MaterialTheme.typography.headlineLarge, modifier = Modifier.align(Alignment.CenterHorizontally))
@@ -162,5 +165,7 @@ private fun FirstSignupScreenPreview() {
         Modifier
             .width(375.dp)
             .height(812.dp)
-            .background(color = Color(0xFFFFFFFF)))
+            .background(color = Color(0xFFFFFFFF)),
+        navController = rememberNavController()
+    )
 }
