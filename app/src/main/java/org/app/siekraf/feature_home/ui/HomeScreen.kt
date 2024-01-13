@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +24,6 @@ import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.material.icons.outlined.ShoppingBasket
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -48,21 +45,18 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
-import org.app.siekraf.core.component.EkrafAppBar
-import org.app.siekraf.core.component.EkrafAspirasiChip
+import org.app.siekraf.core.component.EkrafTopBar
+import org.app.siekraf.core.component.EkrafAspirasiCard
 import org.app.siekraf.core.component.EkrafDrawerSheet
 import org.app.siekraf.core.component.EkrafImageTextButton
 import org.app.siekraf.core.model.Aspirasi
-import org.app.siekraf.core.theme.LightGrey
+import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
-import kotlin.math.round
 
 @Composable
 fun HomeScreen(
@@ -73,6 +67,9 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    val density = LocalDensity.current
+
     viewModel.updateAspirasi(
         listOf(
             Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
@@ -94,7 +91,7 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 Surface(shadowElevation = 3.dp) {
-                    EkrafAppBar(title = "", canNavigateBack = false, onLeadingIconClicked = {
+                    EkrafTopBar(title = "", canNavigateBack = false, onLeadingIconClicked = {
                         scope.launch{
                             drawerState.apply {
                                 if (isOpen) close() else open()
@@ -105,7 +102,9 @@ fun HomeScreen(
             },
         ) {
             Column (
-                modifier.fillMaxWidth().padding(it),
+                modifier
+                    .fillMaxWidth()
+                    .padding(it),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
@@ -156,9 +155,13 @@ fun HomeScreen(
                     }
                 }
                 Row(Modifier.fillMaxWidth(), Arrangement.Center) {
-                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Belanja")
+                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Menu")
                     HomeChip(icon = Icons.Outlined.Book, text = "Buku Keuangan")
-                    HomeChip(icon = Icons.Outlined.ShoppingBasket, text = "Belanja")
+                    HomeChip(icon = Icons.Outlined.ShoppingBasket, text = "Belanja",
+                            onClick = {
+                                navController.navigate(Screen.Belanja.route)
+                        }
+                    )
                     HomeChip(icon = Icons.Outlined.QueryStats, text = "Traffic")
                     HomeChip(icon = Icons.Outlined.CardGiftcard, text = "Reward")
                 }
@@ -169,7 +172,7 @@ fun HomeScreen(
                 LazyRow (
                     content = {
                         items(uiState.listApsirasi) {
-                            EkrafAspirasiChip(it)
+                            EkrafAspirasiCard(it)
                         }
                     }
                 )

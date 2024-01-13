@@ -22,34 +22,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.app.siekraf.R
-import org.app.siekraf.core.component.EkrafAppBar
+import org.app.siekraf.core.component.EkrafTopBar
 import org.app.siekraf.core.component.EkrafDrawerSheet
 
 @Composable
 fun NotificationScreen() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    Scaffold(
-        topBar = {
-            Surface(shadowElevation = 3.dp) {
-                EkrafAppBar(title = "", canNavigateBack = false, onLeadingIconClicked = {
-                    scope.launch{
-                        drawerState.apply {
-                            if (isOpen) close() else open()
-                        }
-                    }
-                })
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                EkrafDrawerSheet()
             }
         },
-    ) {
-        ModalNavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = {
-                ModalDrawerSheet {
-                    EkrafDrawerSheet()
+    ){
+        Scaffold(
+            topBar = {
+                Surface(shadowElevation = 3.dp) {
+                    EkrafTopBar(title = "", canNavigateBack = false, onLeadingIconClicked = {
+                        scope.launch{
+                            drawerState.apply {
+                                if (isOpen) close() else open()
+                            }
+                        }
+                    })
                 }
             },
-        ){
+        ) {
             Column(
                 modifier = Modifier.padding(it).fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally

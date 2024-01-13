@@ -20,5 +20,6 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         composable(route = Screen.Home.route) {
             HomeScreen(navController = navController, viewModel = viewModel(factory = ekrafViewModelFactory { HomeViewModel() }))
         }
+        belanjaNavGraph(navController = navController)
     }
 }

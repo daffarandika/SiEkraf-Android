@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import org.app.siekraf.core.model.BottomNavigationItem
+import org.app.siekraf.core.model.BarNavigationItem
 import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
 fun EkrafBottomBar(
     modifier: Modifier = Modifier,
-    items: List<BottomNavigationItem>,
+    items: List<BarNavigationItem>,
     navController: NavHostController,
     activeIndex: Int,
     onActiveIndexChanged: (Int) -> Unit = {},

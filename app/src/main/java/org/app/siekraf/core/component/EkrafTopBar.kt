@@ -5,30 +5,31 @@ package org.app.siekraf.core.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.app.siekraf.R
 
 
 @Composable
-fun EkrafAppBar(
+fun EkrafTopBar(
     modifier: Modifier = Modifier,
     onLeadingIconClicked: () -> Unit = {},
     canNavigateBack: Boolean = false,
@@ -36,14 +37,13 @@ fun EkrafAppBar(
     onTrailingIconClicked: () -> Unit = {},
 ) {
     if (canNavigateBack) {
-        CenterAlignedTopAppBar(
+        TopAppBar(
             title = {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = modifier,
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.padding(10.dp),
+                    horizontalArrangement = Arrangement.Start,
                 ) {
-                    Text(text = title)
+                    Text(text = title, textAlign = TextAlign.Start)
                 }
             },
             modifier = modifier,
@@ -72,11 +72,10 @@ fun EkrafAppBar(
             }
         )
     } else {
-        CenterAlignedTopAppBar(
+        TopAppBar(
             title = {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = modifier,
+                    modifier = Modifier.padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(text = title)
@@ -113,11 +112,11 @@ fun EkrafAppBar(
 @Preview
 @Composable
 fun EkrafTopBarBackPreview() {
-    EkrafAppBar(canNavigateBack = true)
+    EkrafTopBar(canNavigateBack = true)
 }
 
 @Preview
 @Composable
 fun EkrafTopBarNoBackPreview() {
-    EkrafAppBar(canNavigateBack = false)
+    EkrafTopBar(canNavigateBack = false)
 }

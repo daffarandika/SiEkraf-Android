@@ -26,7 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.app.siekraf.core.model.Aspirasi
 
 @Composable
-fun EkrafAspirasiChip (
+fun EkrafAspirasiCard (
     aspirasi: Aspirasi = Aspirasi(judul = "Judul", isi = "isi", poster = "Dapa", tanggal = "12 Desember 2023"),
     modifier: Modifier = Modifier
 ) {
@@ -53,5 +53,5 @@ fun EkrafAspirasiChip (
 @Preview
 @Composable
 fun ChipPreview() {
-    EkrafAspirasiChip()
+    EkrafAspirasiCard()
 }
