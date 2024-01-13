@@ -12,8 +12,8 @@ const val BELANJA_GRAPH_ROUTE = "BELANJA"
 
 sealed class Screen(val route: String) {
     object Login: Screen("login")
-    object FirstSignUp: Screen("sign_up")
-    object SecondSignUp: Screen("sign_up")
+    object FirstSignUp: Screen("first_sign_up")
+    object SecondSignUp: Screen("second_sign_up")
     object Main: Screen("main")
     object Home: Screen("home")
     object QrCode: Screen("qr_code")

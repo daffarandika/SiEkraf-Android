@@ -15,6 +15,18 @@ class SignupViewModel: ViewModel() {
     private val _signupState = MutableStateFlow<Output<String>>(Output.Loading)
     val  signupState: StateFlow<Output<String>> = _signupState.asStateFlow()
 
+    fun updateAlamatInput(alamat: String) {
+        _uiState.update{
+            it.copy(alamat = alamat)
+        }
+    }
+
+    fun updatePhoneInput(phone: String) {
+        _uiState.update{
+            it.copy(phone = phone)
+        }
+    }
+
     fun updateEmailInput(email: String) {
         _uiState.update{
             it.copy(email = email)

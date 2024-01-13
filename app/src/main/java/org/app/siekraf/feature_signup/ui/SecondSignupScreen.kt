@@ -39,6 +39,7 @@ import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPhoneTextField
 import org.app.siekraf.core.component.EkrafRadioButton
 import org.app.siekraf.core.component.EkrafTextField
+import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
@@ -91,8 +92,8 @@ fun SecondSignupScreen(
         Spacer(Modifier.size(10.dp))
 
         EkrafPhoneTextField(
-            value = uiState.value.email,
-            onValueChange = {viewModel.updateEmailInput(it)},
+            value = uiState.value.phone,
+            onValueChange = {viewModel.updatePhoneInput(it)},
             modifier = Modifier.fillMaxWidth(),
             isError = uiState.value.isEmailError
         )
@@ -101,7 +102,7 @@ fun SecondSignupScreen(
 
         EkrafTextField(
             maxLines=5,
-            value = uiState.value.password,
+            value = uiState.value.alamat,
             isError = uiState.value.isPasswordError,
             hint = {
                 Column(verticalArrangement = Arrangement.Top){
@@ -109,7 +110,7 @@ fun SecondSignupScreen(
                     Spacer(modifier.size(90.dp))
                 }
             },
-            onValueChange = { viewModel.updatePasswordInput(it) },
+            onValueChange = { viewModel.updateAlamatInput(it)},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -120,7 +121,13 @@ fun SecondSignupScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                navController.navigate(Screen.FirstSignUp.route){
+                    popUpTo(route = Screen.SecondSignUp.route) {
+                        inclusive = true
+                    }
+                }
+            }) {
                 Icon(
                     Icons.Filled.ArrowRightAlt,
                     contentDescription = "Next",
@@ -152,7 +159,7 @@ fun SecondSignupScreen(
 
         EkrafButton(
             onClick = {},
-            text = "Login",
+            text = "Daftar",
             modifier = Modifier
                 .fillMaxWidth()
         )

@@ -9,16 +9,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.app.siekraf.core.navigation.AUTH_GRAPH_ROUTE
 import org.app.siekraf.core.navigation.Screen
+import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_login.ui.LoginScreen
 import org.app.siekraf.feature_login.ui.LoginViewModel
 import org.app.siekraf.feature_main.ui.MainScreen
 import org.app.siekraf.feature_signup.ui.FirstSignupScreen
 import org.app.siekraf.feature_signup.ui.SecondSignupScreen
+import org.app.siekraf.feature_signup.ui.SignupViewModel
 
 @Composable
 fun AuthNavGraph(
     navController: NavHostController
 ) {
+    val signupViewModel = viewModel<SignupViewModel>(factory = ekrafViewModelFactory {
+        SignupViewModel()
+    })
     NavHost(
         navController = navController,
         startDestination = Screen.Login.route,
@@ -28,10 +33,10 @@ fun AuthNavGraph(
             LoginScreen(navController = navController)
         }
         composable(route = Screen.FirstSignUp.route) {
-            FirstSignupScreen(navController = navController)
+            FirstSignupScreen(navController = navController, viewModel = signupViewModel)
         }
         composable(route = Screen.SecondSignUp.route) {
-            SecondSignupScreen(navController = navController)
+            SecondSignupScreen(navController = navController, viewModel = signupViewModel)
         }
         composable(route = Screen.Main.route) {
             MainScreen()

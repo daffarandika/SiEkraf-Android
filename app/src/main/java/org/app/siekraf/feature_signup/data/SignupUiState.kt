@@ -4,6 +4,8 @@ data class SignupUiState(
     val email: String = "",
     val password: String = "",
     val name: String = "",
+    val phone: String = "",
+    val alamat: String = "",
     val isPasswordVisible: Boolean = false,
     val isEmailError: Boolean = false,
     val isNameError: Boolean = false,

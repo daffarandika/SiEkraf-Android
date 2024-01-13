@@ -37,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
+import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
@@ -71,7 +72,7 @@ fun FirstSignupScreen(
         Spacer(Modifier.size(16.dp))
 
         EkrafTextField(
-            value = uiState.value.email,
+            value = uiState.value.name,
             hint = {Text("Nama", color = Color.LightGray)},
             onValueChange = {viewModel.updateNameInput(it)},
             modifier = Modifier.fillMaxWidth(),
@@ -125,7 +126,9 @@ fun FirstSignupScreen(
             Box(modifier = Modifier
                 .background(Color.Red)
                 .fillMaxWidth(0.6f))
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                navController.navigate(Screen.SecondSignUp.route)
+            }) {
                 Icon(
                     Icons.Filled.ArrowRightAlt,
                     contentDescription = "Next",
@@ -138,7 +141,9 @@ fun FirstSignupScreen(
 
         Spacer(Modifier.size(16.dp))
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = {
+            navController.popBackStack()
+        }) {
             Text("Sudah Punya Akun? Masuk sekarang", color = SkyBlue)
         }
     }

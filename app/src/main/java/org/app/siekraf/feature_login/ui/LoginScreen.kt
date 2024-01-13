@@ -94,7 +94,7 @@ fun LoginScreen(
 
         Spacer(Modifier.size(128.dp))
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { navController.navigate(Screen.FirstSignUp.route) }) {
             Text("Belum Punya akun? Daftar Sekarang", color = SkyBlue)
         }
         EkrafButton(
