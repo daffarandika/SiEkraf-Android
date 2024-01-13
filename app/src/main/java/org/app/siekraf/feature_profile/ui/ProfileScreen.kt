@@ -116,7 +116,7 @@ fun ProfileScreen(
                 Alignment.CenterHorizontally,
             ){
                 Image(
-                    painter = rememberAsyncImagePainter(Produk(id = 132).gambar),
+                    painter = rememberAsyncImagePainter(uiState.image),
                     contentDescription = "Gambar",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
