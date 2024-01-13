@@ -80,7 +80,7 @@ fun ProductDetailScreen(modifier: Modifier = Modifier, id: String, navController
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
-                        .size(128.dp)
+                        .size(128.dp),
                 )
                 Text(produk.nama, style = MaterialTheme.typography.titleSmall)
             }

@@ -16,6 +16,7 @@ import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_home.ui.HomeScreen
 import org.app.siekraf.feature_home.ui.HomeViewModel
 import org.app.siekraf.feature_notification.ui.NotificationScreen
+import org.app.siekraf.feature_profile.ui.ProfileScreen
 import org.app.siekraf.feature_qr.ui.QrScreen
 
 @Composable
@@ -33,6 +34,9 @@ fun MainNavGraph(navController: NavHostController) {
         }
         composable(route = Screen.QrCode.route) {
             QrScreen()
+        }
+        composable(route = Screen.Profile.route) {
+            ProfileScreen()
         }
         homeNavGraph(navController = navController)
         notificationNavGraph(navController = navController)
