@@ -53,12 +53,13 @@ fun MenuScreen(
                             navController.popBackStack()
                         },
                         onTrailingIconClicked = {},
-                        title = "Belanja"
+                        title = "Menu"
                     )
                     EkrafSecondaryTopBar(
                         items = listOf((
                             BarNavigationItem(text = "Kesenian Tradisional", screen = Screen.Notification, icon = {})),
-                            BarNavigationItem(text = "Tiket Wisata", screen = Screen.Home, icon = {})
+                            BarNavigationItem(text = "Tiket Wisata", screen = Screen.Home, icon = {}),
+                            BarNavigationItem(text = "Lowongan Pekerjaan", screen = Screen.Home, icon = {})
                         ),
                         navController = navController,
                         activeIndex = activeIndex,

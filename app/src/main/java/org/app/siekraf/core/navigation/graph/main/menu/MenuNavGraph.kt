@@ -20,11 +20,7 @@ fun NavGraphBuilder.menuNavGraph(navController: NavHostController) {
         composable(route = Screen.Menu.route) {
             MenuScreen(navController = navController)
         }
-        composable(route = "${Screen.ProductDetail.route}/{product_id}",
-            arguments = listOf(
-                navArgument("product_id"){ type = NavType.StringType }
-            )
-        ) {
+        composable(route = Screen.Loker.route) {
             ProductDetailScreen(id = it.arguments?.getString("product_id").toString(), navController = navController)
         }
     }

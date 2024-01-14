@@ -33,7 +33,7 @@ fun EkrafSecondaryTopBar(
         content = {
             this.itemsIndexed(items = items) {index, item ->
                 Row (
-                    modifier = modifier
+                    modifier = Modifier
                         .clickable {
                             onActiveIndexChanged(index)
                         }
@@ -45,7 +45,7 @@ fun EkrafSecondaryTopBar(
                         }
                         .padding(horizontal = 15.dp, vertical = 7.dp)
                 ) {
-                    Text( text = item.text )
+                    Text(text = item.text)
                     Divider(color = Black)
                 }
             }
