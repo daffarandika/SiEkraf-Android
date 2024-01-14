@@ -17,6 +17,9 @@ sealed class Screen(val route: String) {
     object Main: Screen("main")
     object Home: Screen("home")
     object QrCode: Screen("qr_code")
+    object Menu: Screen("menu")
+    object TiketWisata: Screen("tiket_wisata")
+    object Kesenian: Screen("kesenian")
     object ProductDetail: Screen("product_detail") {
         fun passProductId(productId: String): String {
             return "product_detail/$productId"

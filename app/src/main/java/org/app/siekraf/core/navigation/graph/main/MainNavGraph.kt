@@ -11,10 +11,12 @@ import androidx.navigation.compose.composable
 import org.app.siekraf.core.navigation.MAIN_GRAPH_ROUTE
 import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.navigation.graph.main.home.homeNavGraph
+import org.app.siekraf.core.navigation.graph.main.menu.menuNavGraph
 import org.app.siekraf.core.navigation.graph.main.notification.notificationNavGraph
 import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_home.ui.HomeScreen
 import org.app.siekraf.feature_home.ui.HomeViewModel
+import org.app.siekraf.feature_kotak_saran.ui.KotakSaranScreen
 import org.app.siekraf.feature_notification.ui.NotificationScreen
 import org.app.siekraf.feature_profile.ui.ProfileScreen
 import org.app.siekraf.feature_qr.ui.QrScreen
@@ -38,6 +40,13 @@ fun MainNavGraph(navController: NavHostController) {
         composable(route = Screen.Profile.route) {
             ProfileScreen()
         }
+        composable(route = Screen.KotakSaran.route) {
+            KotakSaranScreen()
+        }
+        composable(route = Screen.Menu.route) {
+            KotakSaranScreen()
+        }
+        menuNavGraph(navController = navController)
         homeNavGraph(navController = navController)
         notificationNavGraph(navController = navController)
         qrCodeNavGraph(navController = navController)

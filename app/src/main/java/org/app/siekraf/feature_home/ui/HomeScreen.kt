@@ -155,7 +155,11 @@ fun HomeScreen(
                     }
                 }
                 Row(Modifier.fillMaxWidth(), Arrangement.Center) {
-                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Menu")
+                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Menu",
+                        onClick = {
+                            navController.navigate(Screen.Menu.route)
+                        }
+                    )
                     HomeChip(icon = Icons.Outlined.Book, text = "Buku Keuangan")
                     HomeChip(icon = Icons.Outlined.ShoppingBasket, text = "Belanja",
                             onClick = {

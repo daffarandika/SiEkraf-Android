@@ -29,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import org.app.siekraf.core.model.Menu
 import org.app.siekraf.core.model.Produk
 
 @Composable
@@ -67,6 +68,45 @@ fun EkrafProdukCard(
             Text(produk.hargaJual.toString())
             Spacer(modifier.size(4.dp))
             Text(text = produk.nama, style = MaterialTheme.typography.titleSmall)
+        }
+    }
+}
+@Composable
+fun EkrafMenuCard(
+    modifier: Modifier = Modifier,
+    menu: Menu,
+    onClick: (String) -> Unit = {}
+) {
+    Card (
+        elevation = CardDefaults.elevatedCardElevation(
+            10.dp
+        ),
+        modifier = modifier
+            .clickable {
+                onClick(menu.id.toString())
+            }
+            .width(120.dp)
+            .padding(18.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ){
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.fillMaxWidth()
+        ){
+            Image(
+                painter = rememberAsyncImagePainter(menu.gambar),
+                contentDescription = "Gambar",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .size(128.dp)
+            )
+            Spacer(modifier.size(4.dp))
+            Text(menu.hargaJual.toString())
+            Spacer(modifier.size(4.dp))
+            Text(text = menu.nama, style = MaterialTheme.typography.titleSmall)
         }
     }
 }
