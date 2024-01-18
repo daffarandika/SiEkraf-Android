@@ -65,8 +65,12 @@ fun MenuScreen(
                         activeIndex = activeIndex,
                         modifier = modifier,
                         onActiveIndexChanged = { id ->
-                            selectedKategori = Menu.getKategoriById(id)
-                            activeIndex = id
+                            if (id == 2) {
+                                navController.navigate(Screen.Loker.route)
+                            } else {
+                                selectedKategori = Menu.getKategoriById(id)
+                                activeIndex = id
+                            }
                         }
                     )
                 }
