@@ -1,6 +1,5 @@
-package org.app.siekraf.feature_login.ui
+package org.app.siekraf.feature_auth.ui
 
-import android.util.Log.v
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,25 +33,49 @@ import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
+import org.app.siekraf.core.model.Output
 import org.app.siekraf.core.navigation.Screen
+import org.app.siekraf.core.screen.ErrorScreen
+import org.app.siekraf.core.screen.LoadingScreen
 import org.app.siekraf.core.theme.SkyBlue
-import org.app.siekraf.core.utils.ekrafViewModelFactory
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-//    viewModel: LoginViewModel = LoginViewModel()
+    loginViewModel: LoginViewModel = viewModel()
 ) {
-    val context = LocalContext.current
 
-    val viewModel = viewModel<LoginViewModel>(
-        factory = ekrafViewModelFactory { LoginViewModel(context) }
-    )
+    val uiState = loginViewModel.uiState.collectAsState()
 
-    val uiState = viewModel.uiState.collectAsState()
+    val loginState by remember { loginViewModel.loginState }.collectAsState()
 
-    val loginState by remember { viewModel.loginState }.collectAsState()
+    LaunchedEffect(loginState)
+    {
+        when (loginState) {
+            is Output.Error -> {
+                navController.navigate(Screen.Main.route) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                }
+            }
+            is Output.Loading -> {
+                navController.navigate(Screen.Main.route) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                }
+            }
+            is Output.Success -> {
+                navController.navigate(Screen.Main.route) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -77,7 +101,7 @@ fun LoginScreen(
         EkrafTextField(
             value = uiState.value.email,
             hint = {Text("Email", color = Color.LightGray)},
-            onValueChange = {viewModel.updateEmailInput(it)},
+            onValueChange = {loginViewModel.updateEmailInput(it)},
             modifier = Modifier.fillMaxWidth(),
             isError = uiState.value.isEmailError
         )
@@ -90,8 +114,8 @@ fun LoginScreen(
             showPassword = uiState.value.isPasswordVisible,
             modifier = Modifier.fillMaxWidth(),
             hint = {Text("Password", color = Color.LightGray)},
-            onValueChange = { viewModel.updatePasswordInput(it) },
-            onShowPasswordChange = { viewModel.updatePasswordVisibility(!uiState.value.isPasswordVisible) },
+            onValueChange = { loginViewModel.updatePasswordInput(it) },
+            onShowPasswordChange = { loginViewModel.updatePasswordVisibility(!uiState.value.isPasswordVisible) },
         )
 
         Spacer(Modifier.size(128.dp))
@@ -101,11 +125,7 @@ fun LoginScreen(
         }
         EkrafButton(
             onClick = {
-                  navController.navigate(Screen.Main.route) {
-                      popUpTo(route = Screen.Login.route) {
-                          inclusive = true
-                      }
-                  }
+                    loginViewModel.login()
             },
             text = "Login",
             modifier = Modifier

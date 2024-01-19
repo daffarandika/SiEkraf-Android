@@ -1,4 +1,4 @@
-package org.app.siekraf.feature_signup.ui
+package org.app.siekraf.feature_auth.ui
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.app.siekraf.core.model.Output
-import org.app.siekraf.feature_signup.data.SignupUiState
+import org.app.siekraf.feature_auth.data.SignupUiState
 
 class SignupViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(SignupUiState())

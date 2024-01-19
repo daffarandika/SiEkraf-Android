@@ -3,24 +3,19 @@ package org.app.siekraf
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
+import androidx.activity.viewModels
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.app.siekraf.core.navigation.graph.auth.AuthNavGraph
-import org.app.siekraf.core.navigation.graph.main.MainNavGraph
 import org.app.siekraf.core.theme.SiEkrafTheme
-import org.app.siekraf.feature_login.ui.LoginScreen
-import org.app.siekraf.feature_main.ui.MainScreen
-import org.app.siekraf.feature_signup.ui.SecondSignupScreen
-import org.app.siekraf.feature_signup.ui.SignupViewModel
+import org.app.siekraf.feature_auth.ui.LoginScreen
+import org.app.siekraf.feature_auth.ui.LoginViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +23,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SiEkrafTheme {
-                AuthNavGraph(navController = navController)
+                val loginViewModel: LoginViewModel by viewModels()
+                AuthNavGraph(navController = navController, loginViewModel = loginViewModel)
             }
         }
     }

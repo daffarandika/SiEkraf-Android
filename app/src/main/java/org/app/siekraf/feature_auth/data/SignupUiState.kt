@@ -1,4 +1,4 @@
-package org.app.siekraf.feature_signup.data
+package org.app.siekraf.feature_auth.data
 
 data class SignupUiState(
     val email: String = "",

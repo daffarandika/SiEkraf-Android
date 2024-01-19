@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.app.siekraf.core.model.Output
 import org.app.siekraf.feature_profile.data.ProfileUiState
-import org.app.siekraf.feature_signup.data.SignupUiState
 
 class ProfileViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(ProfileUiState())
