@@ -1,5 +1,6 @@
 package org.app.siekraf.feature_auth.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPasswordTextField
@@ -50,24 +52,19 @@ fun LoginScreen(
 
     val loginState by remember { loginViewModel.loginState }.collectAsState()
 
+    val ctx = LocalContext.current
+
     LaunchedEffect(loginState)
     {
         when (loginState) {
             is Output.Error -> {
-                navController.navigate(Screen.Main.route) {
-                    popUpTo(Screen.Login.route) {
-                        inclusive = true
-                    }
-                }
+                Toast.makeText(ctx, "error ${(loginState as Output.Error).exception.message}", Toast.LENGTH_SHORT).show()
             }
             is Output.Loading -> {
-                navController.navigate(Screen.Main.route) {
-                    popUpTo(Screen.Login.route) {
-                        inclusive = true
-                    }
-                }
+                Toast.makeText(ctx, "loading", Toast.LENGTH_SHORT).show()
             }
             is Output.Success -> {
+                delay(500)
                 navController.navigate(Screen.Main.route) {
                     popUpTo(Screen.Login.route) {
                         inclusive = true

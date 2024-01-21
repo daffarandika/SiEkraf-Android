@@ -1,10 +1,6 @@
 package org.app.siekraf.core.navigation.graph.main
 
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +9,6 @@ import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.navigation.graph.main.home.homeNavGraph
 import org.app.siekraf.core.navigation.graph.main.menu.menuNavGraph
 import org.app.siekraf.core.navigation.graph.main.notification.notificationNavGraph
-import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_home.ui.HomeScreen
 import org.app.siekraf.feature_home.ui.HomeViewModel
 import org.app.siekraf.feature_kotak_saran.ui.KotakSaranScreen
@@ -23,14 +18,14 @@ import org.app.siekraf.feature_profile.ui.ProfileScreen
 import org.app.siekraf.feature_qr.ui.QrScreen
 
 @Composable
-fun MainNavGraph(navController: NavHostController) {
+fun MainNavGraph(navController: NavHostController, homeViewModel: HomeViewModel) {
     NavHost(
         navController = navController,
         startDestination = Screen.Main.route,
         route = MAIN_GRAPH_ROUTE,
     ) {
         composable(route = Screen.Main.route) {
-            HomeScreen(navController = navController, viewModel = viewModel(factory = ekrafViewModelFactory { HomeViewModel() }))
+            HomeScreen(navController = navController, viewModel = homeViewModel)
         }
         composable(route = Screen.Notification.route) {
             NotificationScreen()
@@ -48,7 +43,7 @@ fun MainNavGraph(navController: NavHostController) {
             MenuScreen(navController = navController)
         }
         menuNavGraph(navController = navController)
-        homeNavGraph(navController = navController)
+        homeNavGraph(navController = navController, homeViewModel)
         notificationNavGraph(navController = navController)
         qrCodeNavGraph(navController = navController)
     }

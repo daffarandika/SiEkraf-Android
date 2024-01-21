@@ -14,11 +14,13 @@ import org.app.siekraf.feature_auth.ui.FirstSignupScreen
 import org.app.siekraf.feature_auth.ui.LoginViewModel
 import org.app.siekraf.feature_auth.ui.SecondSignupScreen
 import org.app.siekraf.feature_auth.ui.SignupViewModel
+import org.app.siekraf.feature_home.ui.HomeViewModel
 
 @Composable
 fun AuthNavGraph(
     navController: NavHostController,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    homeViewModel: HomeViewModel
 ) {
     val signupViewModel = viewModel<SignupViewModel>(factory = ekrafViewModelFactory {
         SignupViewModel()
@@ -38,7 +40,7 @@ fun AuthNavGraph(
             SecondSignupScreen(navController = navController, viewModel = signupViewModel)
         }
         composable(route = Screen.Main.route) {
-            MainScreen()
+            MainScreen(homeViewModel = homeViewModel)
         }
     }
 }

@@ -49,6 +49,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.app.siekraf.core.component.EkrafTopBar
 import org.app.siekraf.core.component.EkrafAspirasiCard
@@ -60,15 +66,13 @@ import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
     viewModel: HomeViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
-    val density = LocalDensity.current
 
     viewModel.updateAspirasi(
         listOf(
@@ -155,7 +159,7 @@ fun HomeScreen(
                     }
                 }
                 Row(Modifier.fillMaxWidth(), Arrangement.Center) {
-                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Menu",
+                    HomeChip(icon = Icons.Outlined.MenuBook, text = "Home",
                         onClick = {
                             navController.navigate(Screen.Menu.route)
                         }
@@ -175,8 +179,8 @@ fun HomeScreen(
                     .align(Alignment.Start))
                 LazyRow (
                     content = {
-                        items(uiState.listApsirasi) {
-                            EkrafAspirasiCard(it)
+                        items(uiState.listApsirasi) {aspirasi ->
+                            EkrafAspirasiCard(aspirasi)
                         }
                     }
                 )

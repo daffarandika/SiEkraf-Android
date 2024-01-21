@@ -14,6 +14,7 @@ import org.app.siekraf.core.navigation.graph.auth.AuthNavGraph
 import org.app.siekraf.core.theme.SiEkrafTheme
 import org.app.siekraf.feature_auth.ui.LoginScreen
 import org.app.siekraf.feature_auth.ui.LoginViewModel
+import org.app.siekraf.feature_home.ui.HomeViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             SiEkrafTheme {
                 val loginViewModel: LoginViewModel by viewModels()
-                AuthNavGraph(navController = navController, loginViewModel = loginViewModel)
+                val homeViewModel: HomeViewModel by viewModels()
+                AuthNavGraph(navController = navController, loginViewModel = loginViewModel, homeViewModel = homeViewModel)
             }
         }
     }

@@ -12,13 +12,13 @@ import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_home.ui.HomeScreen
 import org.app.siekraf.feature_home.ui.HomeViewModel
 
-fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.homeNavGraph(navController: NavHostController, homeViewModel: HomeViewModel) {
     navigation(
         startDestination =  Screen.Home.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(route = Screen.Home.route) {
-            HomeScreen(navController = navController, viewModel = viewModel(factory = ekrafViewModelFactory { HomeViewModel() }))
+            HomeScreen(navController = navController, viewModel = homeViewModel)
         }
         belanjaNavGraph(navController = navController)
     }

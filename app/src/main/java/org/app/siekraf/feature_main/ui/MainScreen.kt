@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,10 +39,12 @@ import org.app.siekraf.core.model.BarNavigationItem
 import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.navigation.graph.main.MainNavGraph
 import org.app.siekraf.core.theme.GoldYellow
+import org.app.siekraf.feature_home.ui.HomeViewModel
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel
 ) {
     var activeIndex by remember {
         mutableIntStateOf(0)
@@ -70,6 +73,7 @@ fun MainScreen(
                     with(density) { 100.dp.roundToPx() }
                 }
             ) {
+                val backrground = MaterialTheme.colorScheme.background
                 FloatingActionButton(
                     onClick = {
                         navController.navigate(Screen.QrCode.route)
@@ -80,7 +84,7 @@ fun MainScreen(
                         .offset(y = 30.dp)
                         .drawBehind {
                             drawCircle(
-                                color = White,
+                                color = backrground,
                                 radius = 70f
                             )
                         }
@@ -114,7 +118,7 @@ fun MainScreen(
         }
     ) {
         Box(modifier.padding(it)) {
-            MainNavGraph(navController = navController)
+            MainNavGraph(navController = navController, homeViewModel = homeViewModel)
         }
     }
 }
