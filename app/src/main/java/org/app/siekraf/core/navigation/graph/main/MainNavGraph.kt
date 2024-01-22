@@ -1,6 +1,7 @@
 package org.app.siekraf.core.navigation.graph.main
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,7 +44,7 @@ fun MainNavGraph(navController: NavHostController, homeViewModel: HomeViewModel)
             MenuScreen(navController = navController)
         }
         menuNavGraph(navController = navController)
-        homeNavGraph(navController = navController, homeViewModel)
+        homeNavGraph(navController = navController)
         notificationNavGraph(navController = navController)
         qrCodeNavGraph(navController = navController)
     }

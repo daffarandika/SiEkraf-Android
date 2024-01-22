@@ -28,9 +28,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -44,7 +44,6 @@ import org.app.siekraf.feature_home.ui.HomeViewModel
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel
 ) {
     var activeIndex by remember {
         mutableIntStateOf(0)
@@ -56,9 +55,10 @@ fun MainScreen(
 
     val density = LocalDensity.current
 
+    val homeViewModel: HomeViewModel = hiltViewModel()
+
     showBottomBar = when(navBackStackEntry?.destination?.route) {
-        Screen.Belanja.route -> false
-        "${Screen.ProductDetail.route}/{product_id}" -> false
+        Screen.Belanja.route -> false "${Screen.ProductDetail.route}/{product_id}" -> false
         else -> true
     }
     Scaffold(
@@ -118,7 +118,7 @@ fun MainScreen(
         }
     ) {
         Box(modifier.padding(it)) {
-            MainNavGraph(navController = navController, homeViewModel = homeViewModel)
+            MainNavGraph(navController = navController, homeViewModel)
         }
     }
 }

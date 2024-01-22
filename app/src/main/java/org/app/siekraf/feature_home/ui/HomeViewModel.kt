@@ -15,9 +15,6 @@ import org.app.siekraf.feature_auth.data.TokenRepository
 import org.app.siekraf.feature_home.data.HomeUiState
 import javax.inject.Inject
 
-data class UiState(val isLoading: Boolean, val data: List<Aspirasi>? = null, val error: String? = null)
-
-
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val tokenRepository: TokenRepository

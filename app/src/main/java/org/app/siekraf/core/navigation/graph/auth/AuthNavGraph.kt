@@ -1,12 +1,14 @@
 package org.app.siekraf.core.navigation.graph.auth
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.app.siekraf.core.navigation.AUTH_GRAPH_ROUTE
 import org.app.siekraf.core.navigation.Screen
+import org.app.siekraf.core.navigation.graph.main.MainNavGraph
 import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_auth.ui.LoginScreen
 import org.app.siekraf.feature_main.ui.MainScreen
@@ -19,8 +21,6 @@ import org.app.siekraf.feature_home.ui.HomeViewModel
 @Composable
 fun AuthNavGraph(
     navController: NavHostController,
-    loginViewModel: LoginViewModel,
-    homeViewModel: HomeViewModel
 ) {
     val signupViewModel = viewModel<SignupViewModel>(factory = ekrafViewModelFactory {
         SignupViewModel()
@@ -31,6 +31,7 @@ fun AuthNavGraph(
         route = AUTH_GRAPH_ROUTE
     ) {
         composable(route = Screen.Login.route) {
+            val loginViewModel: LoginViewModel = hiltViewModel()
             LoginScreen(navController = navController, loginViewModel = loginViewModel)
         }
         composable(route = Screen.FirstSignUp.route) {
@@ -40,7 +41,7 @@ fun AuthNavGraph(
             SecondSignupScreen(navController = navController, viewModel = signupViewModel)
         }
         composable(route = Screen.Main.route) {
-            MainScreen(homeViewModel = homeViewModel)
+            MainScreen()
         }
     }
 }

@@ -24,9 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SiEkrafTheme {
-                val loginViewModel: LoginViewModel by viewModels()
-                val homeViewModel: HomeViewModel by viewModels()
-                AuthNavGraph(navController = navController, loginViewModel = loginViewModel, homeViewModel = homeViewModel)
+                AuthNavGraph(navController = navController)
             }
         }
     }

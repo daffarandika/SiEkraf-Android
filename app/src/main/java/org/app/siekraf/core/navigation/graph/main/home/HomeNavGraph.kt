@@ -1,6 +1,7 @@
 package org.app.siekraf.core.navigation.graph.main.home
 
 import androidx.compose.material3.DrawerState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -12,12 +13,13 @@ import org.app.siekraf.core.utils.ekrafViewModelFactory
 import org.app.siekraf.feature_home.ui.HomeScreen
 import org.app.siekraf.feature_home.ui.HomeViewModel
 
-fun NavGraphBuilder.homeNavGraph(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
     navigation(
         startDestination =  Screen.Home.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(route = Screen.Home.route) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
             HomeScreen(navController = navController, viewModel = homeViewModel)
         }
         belanjaNavGraph(navController = navController)
