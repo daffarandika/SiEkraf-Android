@@ -1,45 +1,42 @@
 package org.app.siekraf.feature_home.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.update
-import org.app.siekraf.core.model.Aspirasi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import org.app.siekraf.core.model.Output
 import org.app.siekraf.feature_auth.data.TokenRepository
-import org.app.siekraf.feature_home.data.HomeUiState
+import org.app.siekraf.feature_home.data.HomeRepository
+import org.app.siekraf.feature_home.data.KotasHeader
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository
+    private val homeRepository: HomeRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(HomeUiState())
-    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    private val _outputState = MutableStateFlow<Output<List<Aspirasi>>>(Output.Loading)
-    val outputState: StateFlow<Output<List<Aspirasi>>> = _outputState.asStateFlow()
+    private val _uiState = MutableStateFlow<Output<List<KotasHeader>>>(Output.Loading)
+    val uiState: StateFlow<Output<List<KotasHeader>>> = _uiState.asStateFlow()
 
-    fun updateAspirasi(listAspirasi: List<Aspirasi>) {
-        _uiState.value = uiState.value.copy(
-            listApsirasi = listAspirasi
-        )
+    init {
+        getKotas()
     }
 
-    fun getToken(): Flow<String> {
-        return tokenRepository.token.filter {
-            it != ""
-        }
-    }
-
-    fun updateSaldo(saldo: Int) {
-        _uiState.update {
-            it.copy(saldo = saldo)
+    fun getKotas() {
+        viewModelScope.launch {
+            homeRepository.getKotas()
+                .onStart {
+                    _uiState.value = Output.Loading
+                }.catch {err ->
+                    _uiState.value = Output.Error(err)
+                }.collect { res ->
+                    _uiState.value = Output.Success(res.data)
+                }
         }
     }
 

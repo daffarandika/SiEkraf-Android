@@ -118,7 +118,7 @@ fun MainScreen(
         }
     ) {
         Box(modifier.padding(it)) {
-            MainNavGraph(navController = navController, homeViewModel)
+            MainNavGraph(navController = navController)
         }
     }
 }

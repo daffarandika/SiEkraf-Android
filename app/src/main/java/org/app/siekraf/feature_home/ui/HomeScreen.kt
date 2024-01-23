@@ -1,5 +1,8 @@
 package org.app.siekraf.feature_home.ui
 
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -61,9 +64,12 @@ import org.app.siekraf.core.component.EkrafAspirasiCard
 import org.app.siekraf.core.component.EkrafDrawerSheet
 import org.app.siekraf.core.component.EkrafImageTextButton
 import org.app.siekraf.core.model.Aspirasi
+import org.app.siekraf.core.model.Output
 import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
+import org.app.siekraf.feature_home.data.KotasHeader
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -74,16 +80,6 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    viewModel.updateAspirasi(
-        listOf(
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-            Aspirasi(judul="Biografi Linus Torvalds, Pencipta Linux Sebagai Tulang Punggung Internet", poster = "post", isi = "isi", tanggal = "12 desember 2005"),
-        )
-    )
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -129,7 +125,7 @@ fun HomeScreen(
                     Row (modifier = Modifier.padding(8.dp)){
                         Icon(imageVector = Icons.Filled.Wallet, tint= SkyBlue, contentDescription = null)
                         Spacer(Modifier.size(4.dp))
-                        Text(uiState.saldo.toString())
+                        Text(0.toString())
                     }
                     Row (horizontalArrangement = Arrangement.spacedBy(4.dp)){
                         EkrafImageTextButton(text = "Bayar", onClick = {}) {
@@ -179,8 +175,19 @@ fun HomeScreen(
                     .align(Alignment.Start))
                 LazyRow (
                     content = {
-                        items(uiState.listApsirasi) {aspirasi ->
-                            EkrafAspirasiCard(aspirasi)
+                        val listAspirasi = when (uiState) {
+                            is Output.Error -> {
+                                listOf()
+                            }
+                            is Output.Loading -> {
+                                listOf()
+                            }
+                            is Output.Success -> {
+                                (uiState as Output.Success).data
+                            }
+                        }
+                        items(listAspirasi) {aspirasi ->
+                            EkrafAspirasiCard(aspirasi = aspirasi)
                         }
                     }
                 )

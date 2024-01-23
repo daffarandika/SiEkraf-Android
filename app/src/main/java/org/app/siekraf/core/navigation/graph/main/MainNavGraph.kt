@@ -2,6 +2,7 @@ package org.app.siekraf.core.navigation.graph.main
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,13 +20,14 @@ import org.app.siekraf.feature_profile.ui.ProfileScreen
 import org.app.siekraf.feature_qr.ui.QrScreen
 
 @Composable
-fun MainNavGraph(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun MainNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screen.Main.route,
         route = MAIN_GRAPH_ROUTE,
     ) {
         composable(route = Screen.Main.route) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
             HomeScreen(navController = navController, viewModel = homeViewModel)
         }
         composable(route = Screen.Notification.route) {
