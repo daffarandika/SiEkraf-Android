@@ -74,13 +74,6 @@ fun EkrafControlledTextField(
             ,
             value = value,
             onValueChange = onValueChange,
-            colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.LightGray,
-                focusedBorderColor = Color.Gray,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray,
-            ),
             isError = isError,
             trailingIcon = {
                 if (isError) {

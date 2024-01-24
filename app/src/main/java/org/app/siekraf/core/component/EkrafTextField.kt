@@ -62,13 +62,6 @@ fun EkrafTextField(
             modifier = modifier,
             value = value,
             onValueChange = onValueChange,
-            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = LightGray,
-                unfocusedBorderColor = LightGray,
-                cursorColor = LightGrey,
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-            ),
             isError = isError,
             trailingIcon = {
                 if (isError) {
@@ -83,5 +76,5 @@ fun EkrafTextField(
 @Preview
 @Composable
 fun EkrafTextFieldPreview() {
-   EkrafTextField(value = "", onValueChange = {}, showLabel = true, labelText = "bagus")
+   EkrafTextField(value = "", onValueChange = {}, showLabel = true, labelText = "Label")
 }

@@ -47,13 +47,6 @@ fun EkrafPasswordTextField(
             textStyle = MaterialTheme.typography.bodyMedium,
             placeholder = hint,
             onValueChange = onValueChange,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = LightGray,
-                unfocusedBorderColor = LightGray,
-                cursorColor = LightGray,
-                focusedContainerColor = White,
-                unfocusedContainerColor = White,
-            ),
             modifier = modifier,
             visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),

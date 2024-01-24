@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.app.siekraf.core.theme.SkyBlue
 
 @Composable
 fun EkrafButton(
@@ -22,7 +21,7 @@ fun EkrafButton(
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = SkyBlue
+//            containerColor = SkyBlue
         ),
     ) {
         Text(

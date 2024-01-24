@@ -4,11 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontVariation.weight
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import org.app.siekraf.core.model.BarNavigationItem
 import org.app.siekraf.core.theme.SkyBlue

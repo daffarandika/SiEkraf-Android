@@ -64,7 +64,8 @@ fun HomeChip(
             tint = Color.White
         )
         Text(text, fontSize = 12.sp, style = TextStyle(
-            lineHeight = 9.sp, textAlign = TextAlign.Center
+            lineHeight = 9.sp, textAlign = TextAlign.Center,
+            color = Color.Black
         ))
     }
 }
