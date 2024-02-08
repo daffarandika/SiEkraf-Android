@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,9 +29,6 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    private val _loginState = MutableStateFlow<Output<String>>(Output.Loading)
-    val  loginState: StateFlow<Output<String>> = _loginState.asStateFlow()
-
     fun updateEmailInput(email: String) {
         _uiState.update{
             it.copy(email = email)
@@ -43,12 +42,18 @@ class LoginViewModel @Inject constructor(
                 password = uiState.value.password
             )
             authRepository.login(loginRequest).onStart {
-                _loginState.value = Output.Loading
+                _uiState.update {
+                    it.copy(token = Output.Loading)
+                }
             }.catch { e ->
-                _loginState.value = Output.Error(e)
+                _uiState.update {
+                    it.copy(token = Output.Error(e))
+                }
             }.collect { res ->
                 tokenRepository.setToken(res.token)
-                _loginState.value = Output.Success(res.token)
+                _uiState.update {
+                    it.copy(token = Output.Success(res.token))
+                }
             }
         }
     }

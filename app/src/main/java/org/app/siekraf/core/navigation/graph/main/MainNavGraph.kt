@@ -1,5 +1,7 @@
 package org.app.siekraf.core.navigation.graph.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,6 +21,7 @@ import org.app.siekraf.feature_notification.ui.NotificationScreen
 import org.app.siekraf.feature_profile.ui.ProfileScreen
 import org.app.siekraf.feature_qr.ui.QrScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavGraph(navController: NavHostController) {
     NavHost(

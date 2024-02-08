@@ -22,17 +22,20 @@ private val DarkColorScheme = darkColorScheme(
     secondary = LightGrey,
     onSecondary = Color.Black,
     tertiary = GoldYellow,
-    onTertiary = Color.Black
+    onTertiary = Color.Black,
+    onSurface = Color.Black
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = SkyBlue,
-    onPrimary = Color.Black,
+    onPrimary = Color.White,
     secondary = LightGrey,
     onSecondary = Color.Black,
     tertiary = GoldYellow,
-    onTertiary = Color.Black
+    onTertiary = Color.Black,
+    onSurface = Color.Black
 )
+
 @Composable
 fun SiEkrafTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

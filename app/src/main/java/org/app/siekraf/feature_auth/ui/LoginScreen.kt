@@ -1,5 +1,6 @@
 package org.app.siekraf.feature_auth.ui
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,55 +17,48 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafButton
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
 import org.app.siekraf.core.model.Output
-import org.app.siekraf.core.navigation.Screen
+import org.app.siekraf.core.theme.SiEkrafTheme
+import org.app.siekraf.feature_auth.data.LoginUiState
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginUiState: LoginUiState,
+    context: Context = LocalContext.current,
+    updateEmailInput: (String) -> Unit = {},
+    updatePasswordInput: (String) -> Unit = {},
+    updatePasswordVisibility: (Boolean) -> Unit = {},
+    canLogin: Boolean = false,
+    setError: () -> Unit = {},
+    removeError: () -> Unit = {},
+    doLoginRequest: () -> Unit = {},
+    navigateToHome: () -> Unit = {},
+    navigateToSignUp: () -> Unit = {}
 ) {
 
-    val uiState = loginViewModel.uiState.collectAsState()
-
-    val loginState by remember { loginViewModel.loginState }.collectAsState()
-
-    val ctx = LocalContext.current
-
-    LaunchedEffect(loginState)
-    {
-        when (loginState) {
+    LaunchedEffect(loginUiState.token) {
+        when (loginUiState.token) {
             is Output.Error -> {
-                Toast.makeText(ctx, "error ${(loginState as Output.Error).exception.message}", Toast.LENGTH_SHORT).show()
-            }
-            is Output.Loading -> {
-                Toast.makeText(ctx, "loading", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "error ${(loginUiState.token as Output.Error).exception.message}", Toast.LENGTH_SHORT).show()
             }
             is Output.Success -> {
                 delay(500)
-                navController.navigate(Screen.Main.route) {
-                    popUpTo(Screen.Login.route) {
-                        inclusive = true
-                    }
-                }
+                navigateToHome()
+            }
+            is Output.Loading -> {
+
             }
         }
     }
@@ -91,33 +85,33 @@ fun LoginScreen(
         Spacer(Modifier.size(16.dp))
 
         EkrafTextField(
-            value = uiState.value.email,
+            value = loginUiState.email,
             hint = {Text("Email")},
-            onValueChange = {loginViewModel.updateEmailInput(it)},
+            onValueChange = {updateEmailInput(it)},
             modifier = Modifier.fillMaxWidth(),
-            isError = uiState.value.isEmailError
+            isError = loginUiState.isEmailError
         )
 
         Spacer(Modifier.size(10.dp))
 
         EkrafPasswordTextField(
-            value = uiState.value.password,
-            isError = uiState.value.isPasswordError,
-            showPassword = uiState.value.isPasswordVisible,
+            value = loginUiState.password,
+            isError = loginUiState.isPasswordError,
+            showPassword = loginUiState.isPasswordVisible,
             modifier = Modifier.fillMaxWidth(),
             hint = {Text("Password")},
-            onValueChange = { loginViewModel.updatePasswordInput(it) },
-            onShowPasswordChange = { loginViewModel.updatePasswordVisibility(!uiState.value.isPasswordVisible) },
+            onValueChange = { updatePasswordInput(it) },
+            onShowPasswordChange = { updatePasswordVisibility(!loginUiState.isPasswordVisible) },
         )
 
         Spacer(Modifier.size(128.dp))
 
-        TextButton(onClick = { navController.navigate(Screen.FirstSignUp.route) }) {
+        TextButton(onClick = { navigateToSignUp() }) {
             Text("Belum Punya akun? Daftar Sekarang")
         }
         EkrafButton(
             onClick = {
-                    loginViewModel.login()
+                doLoginRequest()
             },
             text = "Login",
             modifier = Modifier
@@ -126,17 +120,15 @@ fun LoginScreen(
     }
 }
 
-
-
-
 @Preview(widthDp = 375, heightDp = 812)
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen(
-        Modifier
-            .width(375.dp)
-            .height(812.dp)
-            ,
-        navController = rememberNavController()
-    )
+    SiEkrafTheme {
+        LoginScreen(
+            Modifier
+                .width(375.dp)
+                .height(812.dp),
+            LoginUiState()
+        )
+    }
 }

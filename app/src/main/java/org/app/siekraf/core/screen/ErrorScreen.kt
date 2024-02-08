@@ -1,5 +1,6 @@
 package org.app.siekraf.core.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +33,12 @@ import org.app.siekraf.core.theme.SkyBlue
 fun ErrorScreen(
     title: String = "Oh tidak, ada kesalahan.",
     caption: String = "Kami memohon maaf atas ketidaknyamanannya. Silakan coba lagi",
+    errorMessage: String = "",
     navController: NavHostController = rememberNavController()
 ) {
+    if (errorMessage.isNotBlank()) {
+        Log.e("Error cuk", "ErrorScreen: $errorMessage", )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
