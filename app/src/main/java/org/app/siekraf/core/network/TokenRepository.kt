@@ -1,4 +1,4 @@
-package org.app.siekraf.feature_auth.data
+package org.app.siekraf.core.network
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

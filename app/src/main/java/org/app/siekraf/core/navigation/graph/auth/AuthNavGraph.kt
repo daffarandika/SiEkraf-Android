@@ -15,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import org.app.siekraf.core.navigation.AUTH_GRAPH_ROUTE
 import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.utils.ekrafViewModelFactory
+import org.app.siekraf.feature_auth.data.model.SignupUiState
 import org.app.siekraf.feature_auth.ui.LoginScreen
 import org.app.siekraf.feature_main.ui.MainScreen
 import org.app.siekraf.feature_auth.ui.FirstSignupScreen
@@ -26,9 +27,7 @@ import org.app.siekraf.feature_auth.ui.SignupViewModel
 fun AuthNavGraph(
     navController: NavHostController,
 ) {
-    val signupViewModel = viewModel<SignupViewModel>(factory = ekrafViewModelFactory {
-        SignupViewModel()
-    })
+    val signupViewModel: SignupViewModel = hiltViewModel()
     val loginViewModel: LoginViewModel = hiltViewModel()
     NavHost(
         navController = navController,
@@ -38,6 +37,14 @@ fun AuthNavGraph(
         composable(route = Screen.Login.route) {
             val loginUiState by loginViewModel.uiState.collectAsState()
             val context = LocalContext.current
+            fun setError() {
+                loginViewModel.updateEmailError(true)
+                loginViewModel.updatePasswordError(true)
+            }
+            fun removeError()  {
+                loginViewModel.updateEmailError(false)
+                loginViewModel.updatePasswordError(false)
+            }
             LoginScreen(
                 loginUiState = loginUiState,
                 context = context,
@@ -45,19 +52,15 @@ fun AuthNavGraph(
                 updatePasswordInput = { loginViewModel.updatePasswordInput(it) },
                 updatePasswordVisibility = { loginViewModel.updatePasswordVisibility(it) },
                 canLogin = loginViewModel.isReadyToLogin,
-                setError = {
-                    loginViewModel.updateEmailError(true)
-                    loginViewModel.updatePasswordError(true)
-                },
-                removeError = {
-                    loginViewModel.updateEmailError(false)
-                    loginViewModel.updatePasswordError(false)
-                },
                 doLoginRequest = {
-                    runBlocking {
-                        loginViewModel.login()
-                        delay(500)
-                        Toast.makeText(context, "delay don ${loginUiState.token}", Toast.LENGTH_SHORT).show()
+                    if (loginViewModel.isReadyToLogin) {
+                        removeError()
+                        runBlocking {
+                            loginViewModel.login()
+                            delay(500)
+                        }
+                    } else {
+                        setError()
                     }
                 },
                 navigateToHome = {
@@ -71,7 +74,20 @@ fun AuthNavGraph(
             )
         }
         composable(route = Screen.FirstSignUp.route) {
-            FirstSignupScreen(navController = navController, viewModel = signupViewModel)
+            val signUpUiState by signupViewModel.uiState.collectAsState()
+            FirstSignupScreen(
+                signUpUiState = signUpUiState,
+                updateNameInput = { signupViewModel.updateNameInput(it) },
+                updateEmailInput = { signupViewModel.updateEmailInput(it) },
+                updatePasswordInput = { signupViewModel.updatePasswordInput(it) },
+                updatePasswordVisibility = { signupViewModel.updatePasswordVisibility(!signUpUiState.isPasswordVisible) },
+                navigateToLogin = {
+                    navController.popBackStack()
+                },
+                navigateToSecondSignUpScreen = {
+                    navController.navigate(Screen.SecondSignUp.route)
+                }
+            )
         }
         composable(route = Screen.SecondSignUp.route) {
             SecondSignupScreen(navController = navController, viewModel = signupViewModel)

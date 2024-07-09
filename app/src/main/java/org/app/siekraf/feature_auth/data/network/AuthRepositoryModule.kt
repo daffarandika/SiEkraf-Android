@@ -1,4 +1,4 @@
-package org.app.siekraf.feature_auth.data
+package org.app.siekraf.feature_auth.data.network
 
 import dagger.Binds
 import dagger.Module

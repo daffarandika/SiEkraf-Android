@@ -30,7 +30,7 @@ import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
 import org.app.siekraf.core.model.Output
 import org.app.siekraf.core.theme.SiEkrafTheme
-import org.app.siekraf.feature_auth.data.LoginUiState
+import org.app.siekraf.feature_auth.data.model.LoginUiState
 
 @Composable
 fun LoginScreen(
@@ -111,7 +111,12 @@ fun LoginScreen(
         }
         EkrafButton(
             onClick = {
-                doLoginRequest()
+                if (canLogin) {
+                    removeError()
+                    doLoginRequest()
+                } else {
+                    setError()
+                }
             },
             text = "Login",
             modifier = Modifier

@@ -32,24 +32,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.app.siekraf.R
 import org.app.siekraf.core.component.EkrafPasswordTextField
 import org.app.siekraf.core.component.EkrafTextField
 import org.app.siekraf.core.navigation.Screen
 import org.app.siekraf.core.theme.SkyBlue
+import org.app.siekraf.feature_auth.data.model.SignupUiState
 
 @Composable
 fun FirstSignupScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignupViewModel = SignupViewModel(),
-    navController: NavHostController,
+    signUpUiState: SignupUiState = SignupUiState(),
+    updateEmailInput: (String) -> Unit = {},
+    updateNameInput: (String) -> Unit = {},
+    updatePasswordInput: (String) -> Unit = {},
+    updatePasswordVisibility: (Boolean) -> Unit = {},
+    navigateToLogin: () -> Unit = {},
+    navigateToSecondSignUpScreen: () -> Unit = {},
 ) {
-
-    val uiState = viewModel.uiState.collectAsState()
-
-    val signupState by remember { viewModel.signupState }.collectAsState()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -72,33 +73,33 @@ fun FirstSignupScreen(
         Spacer(Modifier.size(16.dp))
 
         EkrafTextField(
-            value = uiState.value.name,
+            value = signUpUiState.name,
             hint = {Text("Nama", color = Color.LightGray)},
-            onValueChange = {viewModel.updateNameInput(it)},
+            onValueChange = { updateNameInput(it) },
             modifier = Modifier.fillMaxWidth(),
-            isError = uiState.value.isEmailError
+            isError = signUpUiState.isEmailError
         )
 
         Spacer(Modifier.size(10.dp))
 
         EkrafTextField(
-            value = uiState.value.email,
+            value = signUpUiState.email,
             hint = {Text("Email", color = Color.LightGray)},
-            onValueChange = {viewModel.updateEmailInput(it)},
+            onValueChange = {updateEmailInput(it)},
             modifier = Modifier.fillMaxWidth(),
-            isError = uiState.value.isEmailError
+            isError = signUpUiState.isEmailError
         )
 
         Spacer(Modifier.size(10.dp))
 
         EkrafPasswordTextField(
-            value = uiState.value.password,
-            isError = uiState.value.isPasswordError,
-            showPassword = uiState.value.isPasswordVisible,
+            value = signUpUiState.password,
+            isError = signUpUiState.isPasswordError,
+            showPassword = signUpUiState.isPasswordVisible,
             modifier = Modifier.fillMaxWidth(),
             hint = {Text("Password", color = Color.LightGray)},
-            onValueChange = { viewModel.updatePasswordInput(it) },
-            onShowPasswordChange = { viewModel.updatePasswordVisibility(!uiState.value.isPasswordVisible) },
+            onValueChange = { updatePasswordInput(it) },
+            onShowPasswordChange = { updatePasswordVisibility(!signUpUiState.isPasswordVisible) },
         )
 
         Spacer(Modifier.size(128.dp))
@@ -127,7 +128,7 @@ fun FirstSignupScreen(
                 .background(Color.Red)
                 .fillMaxWidth(0.6f))
             IconButton(onClick = {
-                navController.navigate(Screen.SecondSignUp.route)
+                navigateToSecondSignUpScreen()
             }) {
                 Icon(
                     Icons.Filled.ArrowRightAlt,
@@ -142,7 +143,7 @@ fun FirstSignupScreen(
         Spacer(Modifier.size(16.dp))
 
         TextButton(onClick = {
-            navController.popBackStack()
+            navigateToLogin()
         }) {
             Text("Sudah Punya Akun? Masuk sekarang", color = SkyBlue)
         }
@@ -157,6 +158,5 @@ private fun FirstSignupScreenPreview() {
             .width(375.dp)
             .height(812.dp)
             .background(color = Color(0xFFFFFFFF)),
-        navController = rememberNavController()
     )
 }
